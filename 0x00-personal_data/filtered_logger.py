@@ -23,10 +23,10 @@ def filter_datum(fields: List[str], redaction: str,
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """a function that connects to a database.
     """
-    host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
-    database = os.environ.get("PERSONAL_DATA_DB_NAME", "")
-    user = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
-    password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.environ.get("PERSONAL_DATA_DB_HOST")
+    database = os.environ.get("PERSONAL_DATA_DB_NAME")
+    user = os.environ.get("PERSONAL_DATA_DB_USERNAME")
+    password = os.environ.get("PERSONAL_DATA_DB_PASSWORD")
     conn = mysql.connector.connect(
                      host=host,
                      user=user,
