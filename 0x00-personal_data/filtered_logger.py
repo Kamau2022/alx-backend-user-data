@@ -33,7 +33,7 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         NotImplementedError
 
-    def get_db():
+    def get_db() - > mysql.connector.connection.MySQLConnection:
         """this function returns a connector to the database
         """
         mydb = mysql.connector.connect(
@@ -42,5 +42,4 @@ class RedactingFormatter(logging.Formatter):
          password=os.environ.get('PERSONAL_DATA_DB_PASSWORD'),
          database=os.environ.get('PERSONAL_DATA_DB_NAME')
          )
-        k = mysql.connector.connection.MySQLConnection()
-        return k
+        return mydb
