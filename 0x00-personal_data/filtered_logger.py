@@ -3,6 +3,7 @@
 """
 from typing import List
 import re
+import os
 import logging
 import mysql.connector
 patterns = {
@@ -17,27 +18,11 @@ def filter_datum(fields: List[str], redaction: str,
     """
     extract, replace = (patterns["extract"], patterns["replace"])
     return re.sub(extract(fields, separator), replace(redaction), message)
-
-
-class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
-
-    REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR = ";"
-
-    def __init__(self):
-        super(RedactingFormatter, self).__init__(self.FORMAT)
-
-    def format(self, record: logging.LogRecord) -> str:
-        NotImplementedError
-
     """def get_db() - > mysql.connector.connection.MySQLConnection:
         this function returns a connector to the database
         host = os.getenv('PERSONAL_DATA_DB_HOST', "localhost"),
         user = os.getenv('PERSONAL_DATA_DB_USERNAME', "root"),
-        password = os.getenv('PERSONAL_DATA_DB_PASSWORD', ""),
+        password = os.getenv('PERSONAL_DATA_DB_PASSWORD', "kamau2368"),
         database = os.getenv('PERSONAL_DATA_DB_NAME')
         mydb = mysql.connector.connect(
                host=host,
@@ -48,18 +33,19 @@ class RedactingFormatter(logging.Formatter):
         return mydb
     """
 
-    def get_db() -> mysql.connector.connection.MySQLConnection:
-        """Creates a connector to a database.
-        """
-        db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-        db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
-        db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-        db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-        connection = mysql.connector.connect(
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Creates a connector to a database.
+    """
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    connection = mysql.connector.connect(
                      host=db_host,
                      port=3306,
                      user=db_user,
-                     password=db_pwd,
+                     password="",
                      database=db_name,
         )
-        return connection
+    return connection
