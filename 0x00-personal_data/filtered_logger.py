@@ -36,12 +36,10 @@ class RedactingFormatter(logging.Formatter):
         """a function to filter values in incoming log records
            using filter_datum
         """
-        message = record.getMessage()
+        data = super(RedactingFormatter, self).format(record)
         message = filter_datum(self.fields, self.REDACTION,
-                               message, self.SEPARATOR)
-        logging.basicConfig(level=logging.INFO, format=self.FORMAT)
-        logger = logging.getLogger(record.name)
-        logger.info(message)
+                               data, self.SEPARATOR)
+        return message
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
