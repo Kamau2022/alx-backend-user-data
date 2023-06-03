@@ -4,7 +4,7 @@
 from flask import jsonify, abort, request
 from models.user import User
 from api.v1.views import app_views
-import os
+from os import getenv
 from typing import Tuple
 
 
@@ -14,29 +14,18 @@ def login() -> Tuple[str, int]:
     """
     email = request.form.get('email')
     password = request.form.get('password')
-    if not email:
+    if email is None or email == '':
         return jsonify({"error": "email missing"}), 400
-    if not password:
+    if password is None or password == '':
         return jsonify({"error": "password missing"}), 400
-    """user = User()
-    namelist = user.search({"email": email})
-    if len(namelist) == 0:
-        return jsonify({"error": "no user found for this email"}), 404
-    if not user.is_valid_password(password):
-        return jsonify({ "error": "wrong password" }), 401
-    if user.is_valid_password(password) and len(namelist) != 0:
-        from api.v1.app import auth
-        session_id = auth.create_session(self.user_id)
-        cookie_name = os.getenv('SESSION_NAME')
-        return User.to_json(session_id)
-    """
     users = User.search({'email': email})
     if len(users) == 0:
         return ({"error": "no user found for this email"}), 404
-    if users[0].is_valid_password(password):
+    for instance in users:
         from api.v1.app import auth
-        sessiond_id = auth.create_session(getattr(users[0], 'id'))
-        res = jsonify(users[0].to_json())
-        res.set_cookie(os.getenv("SESSION_NAME"), sessiond_id)
+        if not instance.is_valid_password(password):
+            return jsonify({"error": "wrong password"}), 401
+        sessionId = auth.create_session(instance.id)
+        res = jsonify(instance.to_json())
+        res.set_cookie(getenv("SESSION_NAME"), sessionId)
         return res
-    return jsonify({"error": "wrong password"}), 401
