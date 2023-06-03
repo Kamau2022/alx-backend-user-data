@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
 """ Module of session views
 """
-from flask import Blueprint, request
 from flask import jsonify, abort
 from models.user import User
 from api.v1.views import app_views
 import os
 from typing import Tuple
-session_auth_blueprint = Blueprint('session_auth', __name__)
 
 
-@session_auth_blueprint.route('/auth_session/login',
-                              methods=['POST'])
-@session_auth_blueprint.route('/api/v1/auth_session/login',
-                              methods=['POST'])
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> Tuple[str, int]:
     """ POST /api/v1/auth_session/login
     """
