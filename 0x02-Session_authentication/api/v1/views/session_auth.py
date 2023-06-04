@@ -29,3 +29,16 @@ def login() -> Tuple[str, int]:
         res = jsonify(instance.to_json())
         res.set_cookie(getenv("SESSION_NAME"), sessionId)
         return res
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def delete() -> Tuple[str, int]:
+    """ DELETE /api/v1/auth_session/logout
+    """
+    from api.v1.app import auth
+    destroy = auth.destroy_session(request)
+    if destroy is False:
+        abort(404)
+    else:
+        return jsonify({}), 200
