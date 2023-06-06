@@ -2,7 +2,6 @@
 """SQLAlchemy model
 """
 from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -10,6 +9,8 @@ Base = declarative_base()
 
 
 class User(Base):
+    """a User class
+    """
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
