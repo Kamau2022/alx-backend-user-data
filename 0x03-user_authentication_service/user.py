@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """SQLAlchemy model
 """
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
