@@ -3,7 +3,7 @@
 import bcrypt
 
 
-def _hash_password(password) -> bytes:
+def _hash_password(password: str) -> bytes:
     """takes in a password string arguments and returns bytes
     """
     bytes = password.encode('utf-8')
