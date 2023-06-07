@@ -8,6 +8,11 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
+column = ["id",
+          "email",
+          "hashed_password",
+          "session_id",
+          "reset_token"]
 
 
 class DB:
@@ -39,13 +44,13 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """a method to filter by input arguments
         """
-        try:
-            query = self._session.query(User).filter_by(**kwargs)
-            return query.one()
-        except NoResultFound:
-            raise
-        except Exception as e:
-            raise InvalidRequestError(str(e))
+        for key in kwargs.keys():
+            if key not in column:
+                raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
+        return user
