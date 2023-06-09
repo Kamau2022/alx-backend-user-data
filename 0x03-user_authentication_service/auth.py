@@ -56,9 +56,9 @@ class Auth:
         """get the session id
         """
         try:
-            user = self._db.find_user_by(email=email)
+            self._db.find_user_by(email=email)
             session_id = _generate_uuid()
-            self._db.add_user(email, session_id)
+            user = self._db.add_user(email, session_id)
             return session_id
         except NoResultFound:
             return None
