@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """encrypting password"""
+import uuid
 import bcrypt
 from db import DB
 from user import Base, User
@@ -44,3 +45,8 @@ class Auth:
                 return False
         except NoResultFound:
             return False
+
+    def _generate_uuid() -> str:
+        """generates uuid
+        """
+        return str(uuid.uuid4())
