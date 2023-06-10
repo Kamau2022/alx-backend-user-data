@@ -30,7 +30,7 @@ class Auth:
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
-        """a function to register a user
+        """a function to register a new user
         """
         try:
             self._db.find_user_by(email=email)
@@ -57,8 +57,8 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            session_id = _generate_uuid()
-            self._db.update_user(user.id, session_id=session_id)
-            return session_id
+            generated_uuid = _generate_uuid()
+            self._db.update_user(user.id, session_id=generated_uuid)
+            return generated_uuid
         except NoResultFound:
             return None
